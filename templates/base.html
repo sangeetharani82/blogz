@@ -1,7 +1,23 @@
 <!doctype html>
 <html>
-    <nav>
-        <a href="/main-blog-page">Main Blog Page</a>
-        <a href="add-a-blog-entry">Add a Blog Entry</a>
-    </nav>
+    <head>
+        <title>{{title}}</title>
+        <style>
+            .error { color:red; }
+        </style>
+    </head>
+    <body>
+        
+        <nav>
+            <a href="/blog">Main blog page</a>
+            <a href="/newpost">Add a Blog Entry</a>
+        </nav>
+
+        {% block content %}
+        
+
+
+        {% endblock %}
+
+    </body>
 </html>

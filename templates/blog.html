@@ -1,17 +1,19 @@
-<!doctype html>
-<html>
-    <h1 style="text-align:justify">Add a Blog Entry</h1>
+{% extends "base.html" %}
     
-    <body>
-        <form style="font-size:13px">
-            <label>Title for your new blog:
-                <br><input type="text" name="blog_title" /> 
-            </label><br>
-            <label>Your New Blog:
-                <br><textarea type="text" name="new_blog"></textarea>
-            </label><br><br>
-                <input type="submit" value="Add Entry" />
-            
-        </form>
-    </body>
-</html>
+{% block content %}
+    
+    <h1>Build a Blog</h1>
+   
+    {% if blogpost|length == 0 %}
+    <p>No posts yet</p>
+    {% else %}
+        {% for (blogtitle, blogbody) in blogpost.items() %}
+        <h6>{{blogtitle}}</h6>
+        {{blogbody}}
+        {% endfor %}  
+    {% endif %}   
+
+{% endblock %}
+
+
+
