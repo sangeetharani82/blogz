@@ -2,13 +2,18 @@
 
 {% block content %}
     
-    <form method='POST'>
+   <form method='POST'>
         <h1>Build a blog</h1>
     </form>
-    {% for (k, v) in blog_posts.items() %}
-    <h6><a href="">{{k}}</a></h6>
-    {{v}}
-    {% endfor %}
+    {% if blog_posts|length == 0 %}
+    <p>No posts yet</p>
+    {% else %}
+        {% for (k, v) in blog_posts.items() %}
+        <h6><a href="">{{k}}</a></h6>
+        {{v}}
+        {% endfor %}
+    {% endif %}   
+   
         
 
 {% endblock %}
