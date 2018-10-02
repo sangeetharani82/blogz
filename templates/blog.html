@@ -1,19 +1,14 @@
 {% extends "base.html" %}
-    
+
 {% block content %}
     
-    <h1>Build a Blog</h1>
-   
-    {% if blogpost|length == 0 %}
-    <p>No posts yet</p>
-    {% else %}
-        {% for (blogtitle, blogbody) in blogpost.items() %}
-        <h6>{{blogtitle}}</h6>
-        {{blogbody}}
-        {% endfor %}  
-    {% endif %}   
+    <form method='POST'>
+        <h1>Build a blog</h1>
+    </form>
+    {% for (k, v) in blog_posts.items() %}
+    <h6><a href="">{{k}}</a></h6>
+    {{v}}
+    {% endfor %}
+        
 
 {% endblock %}
-
-
-
