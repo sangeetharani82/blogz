@@ -1,9 +1,10 @@
 from flask import Flask, request, redirect, render_template
-import cgi
-import os
+from flask_sqlalchemy import SQLAlchemy
+
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://build-a-blog:Amba26aug1956!@localhost:8889/build-a-blog'
 
 @app.route("/newpost")
 def display_post():
@@ -11,7 +12,6 @@ def display_post():
 
 blog_titles = []
 blog_bodyz = []
-blog_posts = {}
 
 @app.route('/newpost', methods=['POST', 'GET'])
 def validate_post():
@@ -22,6 +22,7 @@ def validate_post():
         blog_titles.append(blog_title)
         blog_body = request.form['blog_body']
         blog_bodyz.append(blog_body)
+        
     blog_posts = dict(zip(blog_titles, blog_bodyz))
     
     title_error = ''
@@ -47,9 +48,14 @@ def blog():
     blog_posts = dict(zip(blog_titles, blog_bodyz))
     return render_template('blog.html', blog_posts=blog_posts)
 
+@app.route("/individual_blog", methods=['POST', 'GET'])
+def individual_blog():
+    blog_posts = dict(zip(blog_titles, blog_bodyz))
+    return render_template('individual_blog.html', blog_posts=blog_posts)
 
 @app.route("/", methods=['POST', 'GET'])
 def index():
+   
     blog_posts = dict(zip(blog_titles, blog_bodyz))
     return render_template('base.html', blog_posts=blog_posts)
 
