@@ -11,6 +11,7 @@ def display_post():
 
 blog_titles = []
 blog_bodyz = []
+blog_posts = {}
 
 @app.route('/newpost', methods=['POST', 'GET'])
 def validate_post():
@@ -43,21 +44,12 @@ def validate_post():
 
 @app.route("/blog", methods=['POST', 'GET'])
 def blog():
-    if request.method == 'GET':
-        blog_title = request.args.get('blog_title')
-        blog_titles.append(blog_title)
-        blog_body = request.args.get('blog_body')
-        blog_bodyz.append(blog_body)
     blog_posts = dict(zip(blog_titles, blog_bodyz))
     return render_template('blog.html', blog_posts=blog_posts)
 
 
 @app.route("/", methods=['POST', 'GET'])
 def index():
-    blog_title = request.args.get('blog_title')
-    blog_titles.append(blog_title)
-    blog_body = request.args.get('blog_body')
-    blog_bodyz.append(blog_body)
     blog_posts = dict(zip(blog_titles, blog_bodyz))
     return render_template('base.html', blog_posts=blog_posts)
 
