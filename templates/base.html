@@ -15,14 +15,16 @@
     </nav>
     
     {% block content %}
-    <form method='POST'>
+    <form action="/individual-blog" method='POST'>
         <h1 style="text-align: center">Build a blog</h1>
     </form>
+        {% for (title, body) in blog_posts.items() %}
+            <h6 type="hidden" name="title-id" value="{{title.id}}">
+                <a href="/individual-blog">{{title.title}}</a>
+            </h6>
+            {{body.body}}
+        {% endfor %}
     
-    {% for (k, v) in blog_posts.items() %}
-    <h6><a href="/individual_blog">{{k}}</a></h6>
-    {{v}}
-    {% endfor %} 
     {% endblock %}
 
 </body>

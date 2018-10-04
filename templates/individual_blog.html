@@ -2,15 +2,9 @@
 
 {% block content %}
     
-<form method='POST' >
-    <h1 style="text-align: center">{{blog_title}}</h1>
-    <p>{{blog_blody}}</p>
+<form method='POST' action="/individual-blog" >
+    
 </form>
-{% for title in blog_posts %}
-    {% if title in blog_posts %}
-        <h1 style="text-align: center">{{title}}</h1>
-        <p style="text-align: center">{{blog_posts[title]}}</p>
-    {% endif %}
-{% endfor %}
+{{title_id}}
 
 {% endblock %}

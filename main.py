@@ -5,26 +5,43 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://build-a-blog:Amba26aug1956!@localhost:8889/build-a-blog'
+app.config['SQLALCHEMY_ECHO'] = True
+db = SQLAlchemy(app)
+
+class Post(db.Model):
+    
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(120))
+    body = db.Column(db.String(120))
+
+    def __init__(self, title, body):
+        self.title = title
+        self.body = body
+
 
 @app.route("/newpost")
 def display_post():
     return render_template('newpost.html')
 
-blog_titles = []
-blog_bodyz = []
+#blog_titles = []
+#blog_bodyz = []
 
 @app.route('/newpost', methods=['POST', 'GET'])
 def validate_post():
     blog_title = request.form['blog_title']
     blog_body = request.form['blog_body']
+
     if request.method == 'POST':
         blog_title = request.form['blog_title']
-        blog_titles.append(blog_title)
         blog_body = request.form['blog_body']
-        blog_bodyz.append(blog_body)
-        
+        new_post = Post(blog_title, blog_body)
+        db.session.add(new_post)
+        db.session.commit()
+
+    blog_titles = Post.query.all()
+    blog_bodyz = Post.query.all()
     blog_posts = dict(zip(blog_titles, blog_bodyz))
-    
+
     title_error = ''
     body_error = ''
 
@@ -45,19 +62,28 @@ def validate_post():
 
 @app.route("/blog", methods=['POST', 'GET'])
 def blog():
+    blog_titles = Post.query.all()
+    blog_bodyz = Post.query.all()
     blog_posts = dict(zip(blog_titles, blog_bodyz))
     return render_template('blog.html', blog_posts=blog_posts)
 
-@app.route("/individual_blog", methods=['POST', 'GET'])
+@app.route("/individual-blog", methods=['POST', 'GET'])
 def individual_blog():
-    blog_posts = dict(zip(blog_titles, blog_bodyz))
-    return render_template('individual_blog.html', blog_posts=blog_posts)
+    title_id = int(request.form['title-id'])
+    post = Post.query.get(title_id)
+    
+    
+    #blog_titles = Post.query.all()
+    #blog_bodyz = Post.query.all()
+    #blog_posts = dict(zip(blog_titles, blog_bodyz))
+    return render_template('individual_blog.html', blog_posts=blog_posts )
 
 @app.route("/", methods=['POST', 'GET'])
 def index():
-   
+    blog_titles = Post.query.all()
+    blog_bodyz = Post.query.all()
     blog_posts = dict(zip(blog_titles, blog_bodyz))
     return render_template('base.html', blog_posts=blog_posts)
 
-
-app.run()
+if __name__ == '__main__':
+    app.run()

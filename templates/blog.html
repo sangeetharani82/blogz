@@ -6,8 +6,8 @@
         <h1 style="text-align: center">Build a blog</h1>
     </form>
     {% for (k, v) in blog_posts.items() %}
-    <h6><a href="/individual_blog">{{k}}</a></h6>
-    {{v}}
+    <h6><a href="/individual_blog">{{k.title}}</a></h6>
+    {{v.body}}
     {% endfor %}   
    
         
