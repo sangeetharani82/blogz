@@ -70,13 +70,12 @@ def blog():
 @app.route("/individual-blog", methods=['POST', 'GET'])
 def individual_blog():
     title_id = int(request.form['title-id'])
-    post = Post.query.get(title_id)
     
     
     #blog_titles = Post.query.all()
     #blog_bodyz = Post.query.all()
     #blog_posts = dict(zip(blog_titles, blog_bodyz))
-    return render_template('individual_blog.html', blog_posts=blog_posts )
+    return redirect("/?id="+title_id)
 
 @app.route("/", methods=['POST', 'GET'])
 def index():

@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-  
+    {% for title in blog_posts %}
+        {% for id in blog_posts %}
+            {% if id == title.id %}
+            <h5>{{title.title}</h5>}
+            <p>{{blog_post[title.title]}}</p>
+            {%  endif %}
+        {% endfor%}
+    {% endfor %}
 {% endblock %}
