@@ -23,9 +23,6 @@ class Post(db.Model):
 def display_post():
     return render_template('newpost.html')
 
-#blog_titles = []
-#blog_bodyz = []
-
 @app.route('/newpost', methods=['POST', 'GET'])
 def validate_post():
     blog_title = request.form['blog_title']
@@ -64,18 +61,17 @@ def validate_post():
 def blog():
     blog_titles = Post.query.all()
     blog_bodyz = Post.query.all()
+   
     blog_posts = dict(zip(blog_titles, blog_bodyz))
     return render_template('blog.html', blog_posts=blog_posts)
 
-@app.route("/individual-blog", methods=['POST', 'GET'])
+
+@app.route("/blog?=", methods=['POST', 'GET'])
 def individual_blog():
-    title_id = int(request.form['title-id'])
-    
-    
-    #blog_titles = Post.query.all()
-    #blog_bodyz = Post.query.all()
-    #blog_posts = dict(zip(blog_titles, blog_bodyz))
-    return redirect("/?id="+title_id)
+    title_id = request.args.get('title-id')
+    title_id = Post.query.get(title_id)
+
+    return render_template('individual_blog.html',blog_posts=blog_posts)
 
 @app.route("/", methods=['POST', 'GET'])
 def index():

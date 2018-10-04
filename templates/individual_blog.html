@@ -1,12 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {% for title in blog_posts %}
-        {% for id in blog_posts %}
-            {% if id == title.id %}
-            <h5>{{title.title}</h5>}
-            <p>{{blog_post[title.title]}}</p>
-            {%  endif %}
-        {% endfor%}
-    {% endfor %}
+<form action="/blog?id={{title.id}}" method="POST"
+<h4>{{title.id}}</h4></form>
+
 {% endblock %}

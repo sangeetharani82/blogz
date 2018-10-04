@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1 style="text-align: center">Add a Blog Entry</h1>
-    <form method='POST'>
+    <form action="/newpost" method='POST'>
         <label for="blog-title">Title for your New Blog:
             <br><input id="blog-title" name="blog_title" type="text" value='{{blog_title}}'/>
         </label>
@@ -11,8 +11,8 @@
             <br><textarea name="blog_body" type="text" value='{{blog_body}}'></textarea>
         </label>
         <p class="error">{{body_error}}</p>
+        
         <input type="submit" value="Add Entry"/>
     </form>
 
 {% endblock %}
-  

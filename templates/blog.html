@@ -2,14 +2,13 @@
 
 {% block content %}
     
-   <form method='POST'>
+    <form action="/blog" method='POST'>
         <h1 style="text-align: center">Build a blog</h1>
     </form>
-    {% for (k, v) in blog_posts.items() %}
-    <h6><a href="/individual_blog">{{k.title}}</a></h6>
-    {{v.body}}
-    {% endfor %}   
-   
-        
+        {% for (title, body) in blog_posts.items() %}
+            <h6 type="hidden" name="title-id" value="{{title.id}}">
+                <a href="/blog?id={{title.id}}">{{title.title}}</a></h6>
+                <p>{{body.body}}</p>
+        {% endfor %}
 
 {% endblock %}
