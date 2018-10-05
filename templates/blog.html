@@ -1,14 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-    
-    <form action="/blog" method='POST'>
-        <h1 style="text-align: center">Build a blog</h1>
-    </form>
-        {% for (title, body) in blog_posts.items() %}
-            <h6 type="hidden" name="title-id" value="{{title.id}}">
-                <a href="/blog?id={{title.id}}">{{title.title}}</a></h6>
-                <p>{{body.body}}</p>
-        {% endfor %}
+<h1 style="text-align: center">Build a blog</h1>
+{% for idx in range(blog_bodyz|length) %}
+    <h4 style="color:blue; font-style:italic"><a href="/blog?id={{id}}">{{blog_titles[idx].title}}</a></h4>
+    <p style="color:rgb(2, 26, 18); font-style: oblique">{{blog_bodyz[idx].body}}</p>
+{% endfor %}
 
 {% endblock %}

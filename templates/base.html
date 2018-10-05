@@ -1,31 +1,17 @@
 <!doctype html>
 <html>
     <head>
-        <title>{{title}}</title>
-        <style>
-            .error { color:red; font-style:italic; }
-        </style>
+        <title>{{page_title}}</title>
     </head>
-    
-<body>
-    <nav>
-        <a href="/blog">Main blog page</a>
-        <a href="/newpost">Add a Blog Entry</a>
-    </nav>
-    
+    <body>
+        <nav>
+            <a href="/blog">Main blog page</a>
+            <a href="/newpost">Add a Blog Entry</a>
+        </nav>
+        
+        {% block content %}
 
-    {% block content %}
-        <h1 style="text-align: center">Build a blog</h1>
-        {% for (title, body) in blog_posts.items() %}
-            <form method="POST" action="/blog?id=">
-            <h6 type="hidden" name="title-id" value="{{title.id}}">
-                <a href="/blog?id={{title.id}}">{{title.title}}</a>
-            </h6>
-            {{body.body}}
-            </form>
-        {% endfor %}
-    
-    {% endblock %}
+        {% endblock %}
 
-</body>
+    </body>
 </html>
