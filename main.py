@@ -60,7 +60,7 @@ def main_blog():
         blogs = Post.query.get(title_id)
         blog_title = blogs.title
         blog_body = blogs.body 
-        return render_template('single_blog.html', blogs=blogs)
+        return render_template('single_blog.html', blog_title=blog_title, blog_body=blog_body)
 
     if not request.args.get('id'):
         blog_titles = Post.query.all()
