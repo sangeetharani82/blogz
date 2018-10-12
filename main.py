@@ -67,6 +67,24 @@ def main_blog():
         return render_template('blog.html', blog_titles=blog_titles, page_title='Blogz', 
             blog_bodyz=blog_bodyz)
 
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(120), unique=True)
+    password = db.Column(db.String(120))
+
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
+        
+
+@app.route('/login')#login route
+def login():
+    return render_template('login.html')
+
+@app.route('/signup')#signup route
+def signup():
+    return render_template('signup.html')
+
 @app.route("/")
 def index():
     blog_titles = Post.query.all()
