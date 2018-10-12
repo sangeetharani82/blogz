@@ -2,13 +2,36 @@
 <html>
     <head>
         <title>{{page_title}}</title>
+        <style>
+            .error {
+                color: red;
+            }
+            .information {
+                color: blue;
+            }
+        </style>
     </head>
     <body>
+        <div style="text-align: right ">
+            <a href='/login'>login</a>
+            <a href='/logout'>log out</a>
+        </div>
         <nav>
-            <a href="/blog">Main blog page</a>
-            <a href="/newpost">Add a Blog Entry</a>
+            <!blog users>
+            <a href="/blog-users">Home</a>
+            <!Main blog page>
+            <a href="/blog">all posts</a>
+            <!Add a Blog Entry>
+            <a href="/newpost">new post</a>
         </nav>
-        
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            <ul>
+            {% for category,message in messages %}
+                <li class="{{category}}">{{message}}</li>
+            {% endfor %}
+            </ul>    
+        {% endwith %}
+
         {% block content %}
 
         {% endblock %}

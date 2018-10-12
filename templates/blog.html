@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 style="text-align: center">Build a blog</h1>
+<h1 style="text-align: center">blog posts</h1>
 {% for idx in range(blog_bodyz|length) %}
     <h4 style="color:blue; font-style:italic"><a href="/blog?id={{blog_titles[idx].id}}">{{blog_titles[idx].title}}</a></h4>
     <p style="color:rgb(2, 26, 18); font-style: oblique">{{blog_bodyz[idx].body}}</p>
