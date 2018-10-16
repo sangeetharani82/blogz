@@ -50,7 +50,7 @@ def validate_blog():
         blog_body = '' 
 
     if not title_error and not body_error:
-        return render_template('single_blog.html', blog_title=blog_title, blog_body=blog_body)
+        return render_template('single_blog.html', blog_title=blog_title, blog_body=blog_body, userId=owner)
     else:
         return render_template('newpost.html', title_error=title_error, body_error=body_error, blog_title=blog_title, 
             blog_body=blog_body, blog_titles=blog_titles, blog_bodyz=blog_bodyz, page_title='Blogz')
@@ -58,6 +58,7 @@ def validate_blog():
 @app.route("/blog", methods=['POST', 'GET'])
 def main_blog():
     username = request.args.get('username')
+    #owner = User.query.filter_by(username=session['username']).first()
     owner = User.query.filter_by(username=username).all()
     if request.args.get('id'):        
         title_id = request.args.get('id')
@@ -65,18 +66,17 @@ def main_blog():
         blog_title = blogs.title
         blog_body = blogs.body 
         return render_template('single_blog.html', blog_title=blog_title, blog_body=blog_body, userId=blogs.owner)
+    elif request.args.get('user'):
+        username = request.args.get('username')
+        owner = User.query.filter_by(username=username).all()
+        posts = Post.query.get('username')
+        return render_template('single_user.html', posts=posts)
 
     if not request.args.get('id'):
-        blog_titles = Post.query.all()
-        blog_bodyz = Post.query.all()
-        return render_template('blog.html', blog_titles=blog_titles, page_title='Blogz', 
-            blog_bodyz=blog_bodyz)   
+        posts = Post.query.all()
+        return render_template('blog.html', page_title='Blogz', posts=posts, userId=owner)   
 
-    if request.args.get('user'):
-        userId = request.args.get('id')
-        posts = Post.query.get(userId)
-        
-        return render_template('single_user.html', blog_title=posts.title, blog_body=posts.body, userId=posts.owner)
+    
 
 # ---------------------User/logn/signup/logout------------
 class User(db.Model):
