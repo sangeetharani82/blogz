@@ -58,7 +58,6 @@ def validate_blog():
 @app.route("/blog", methods=['POST', 'GET'])
 def main_blog():
     username = request.args.get('username')
-    #owner = User.query.filter_by(username=session['username']).first()
     owner = User.query.filter_by(username=username).all()
     if request.args.get('id'):        
         title_id = request.args.get('id')
@@ -67,10 +66,10 @@ def main_blog():
         blog_body = blogs.body 
         return render_template('single_blog.html', blog_title=blog_title, blog_body=blog_body, userId=blogs.owner)
     elif request.args.get('user'):
-        username = request.args.get('username')
-        owner = User.query.filter_by(username=username).all()
-        posts = Post.query.get('username')
-        return render_template('single_user.html', posts=posts)
+        user_id = request.args.get('id')
+        
+        
+        return render_template('single_user.html')
 
     if not request.args.get('id'):
         posts = Post.query.all()
