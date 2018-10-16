@@ -64,15 +64,19 @@ def main_blog():
         blogs = Post.query.get(title_id)
         blog_title = blogs.title
         blog_body = blogs.body 
-        return render_template('single_blog.html', blog_title=blog_title, blog_body=blog_body, users=blogs.owner)
+        return render_template('single_blog.html', blog_title=blog_title, blog_body=blog_body, userId=blogs.owner)
 
     if not request.args.get('id'):
         blog_titles = Post.query.all()
         blog_bodyz = Post.query.all()
         return render_template('blog.html', blog_titles=blog_titles, page_title='Blogz', 
-            blog_bodyz=blog_bodyz)
+            blog_bodyz=blog_bodyz)   
 
-    
+    if request.args.get('user'):
+        userId = request.args.get('id')
+        posts = Post.query.get(userId)
+        
+        return render_template('single_user.html', blog_title=posts.title, blog_body=posts.body, userId=posts.owner)
 
 # ---------------------User/logn/signup/logout------------
 class User(db.Model):
