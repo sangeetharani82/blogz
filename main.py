@@ -68,7 +68,7 @@ def main_blog():
         return render_template('blog.html', blog_titles=blog_titles, page_title='Blogz', 
             blog_bodyz=blog_bodyz)
 
-# ---------------------User/logn/signup------------
+# ---------------------User/logn/signup/logout------------
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(120), unique=True)
@@ -78,6 +78,11 @@ class User(db.Model):
         self.username = username
         self.password = password
 
+@app.before_request        
+def require_login():
+    allowed_routes = ['login', 'signup', 'main_blog', 'index']
+    if request.endpoint not in allowed_routes and 'username' not in session:
+        return redirect('/login')
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -95,7 +100,7 @@ def login():
             session['username'] = username
             flash("Logged in", 'information')
             flash('Welcome back ' + username.capitalize() + '!', 'information')
-            #print(session)
+            print(session)
             return redirect('/newpost')
         elif not user:#new user
             flash('Username does not exist', 'error')
@@ -127,6 +132,7 @@ def signup():
             new_user = User(username, password)
             db.session.add(new_user)
             db.session.commit()
+            session['username'] = username
             flash('Welcome to your blog, ' + username.capitalize() + '!', 'information')
             return redirect('/newpost')
         else:
@@ -134,6 +140,11 @@ def signup():
             return redirect('/signup')
 
     return render_template('signup.html')
+
+@app.route('/logout')
+def logout():
+    del session['username']
+    return redirect('/blog')
 
 @app.route("/")
 def index():
