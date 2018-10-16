@@ -12,10 +12,12 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120))
     body = db.Column(db.String(120))
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
-    def __init__(self, title, body):
+    def __init__(self, title, body, owner):
         self.title = title
         self.body = body
+        self.owner = owner
 
 @app.route('/newpost')
 def display_newpost_form():
@@ -25,11 +27,11 @@ def display_newpost_form():
 def validate_blog():
     blog_title = request.form['blog_title']
     blog_body = request.form['blog_body']
-
+    owner = User.query.filter_by(username=session['username']).first()
     if request.method == 'POST':
         blog_title = request.form['blog_title']
         blog_body = request.form['blog_body']
-        posts = Post(blog_title, blog_body)
+        posts = Post(blog_title, blog_body, owner)
         db.session.add(posts)
         db.session.commit()
 
@@ -46,7 +48,7 @@ def validate_blog():
     if blog_body == '':
         body_error = "Please fill in the body"
         blog_body = '' 
-    
+
     if not title_error and not body_error:
         return render_template('single_blog.html', blog_title=blog_title, blog_body=blog_body)
     else:
@@ -55,12 +57,14 @@ def validate_blog():
 
 @app.route("/blog", methods=['POST', 'GET'])
 def main_blog():
-    if request.args.get('id'):
+    username = request.args.get('username')
+    owner = User.query.filter_by(username=username).all()
+    if request.args.get('id'):        
         title_id = request.args.get('id')
         blogs = Post.query.get(title_id)
         blog_title = blogs.title
         blog_body = blogs.body 
-        return render_template('single_blog.html', blog_title=blog_title, blog_body=blog_body)
+        return render_template('single_blog.html', blog_title=blog_title, blog_body=blog_body, users=blogs.owner)
 
     if not request.args.get('id'):
         blog_titles = Post.query.all()
@@ -68,11 +72,14 @@ def main_blog():
         return render_template('blog.html', blog_titles=blog_titles, page_title='Blogz', 
             blog_bodyz=blog_bodyz)
 
+    
+
 # ---------------------User/logn/signup/logout------------
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(120), unique=True)
     password = db.Column(db.String(120))
+    posts = db.relationship('Post', backref='owner')
 
     def __init__(self, username, password):
         self.username = username
@@ -148,10 +155,8 @@ def logout():
 
 @app.route("/")
 def index():
-    blog_titles = Post.query.all()
-    blog_bodyz = Post.query.all()
-    return render_template('blog.html', blog_titles=blog_titles, page_title='Blogz', 
-        blog_bodyz=blog_bodyz)
+    users = User.query.all()
+    return render_template('index.html', users=users)
 
 
 if __name__ == "__main__":
