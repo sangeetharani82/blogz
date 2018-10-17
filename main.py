@@ -66,10 +66,8 @@ def main_blog():
         blog_body = blogs.body 
         return render_template('single_blog.html', blog_title=blog_title, blog_body=blog_body, userId=blogs.owner)
     elif request.args.get('user'):
-        username = request.args.get('username')
-        
-        
-        return render_template('singleUser.html', blog_titles=username)
+        user = request.args.get('userId')
+        return render_template('singleUser.html', blogs=user)
 
     if not request.args.get('id'):        
         posts = Post.query.all()
