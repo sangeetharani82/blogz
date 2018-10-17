@@ -67,8 +67,10 @@ def main_blog():
         blog_body = blogs.body 
         return render_template('single_blog.html', blog_title=blog_title, blog_body=blog_body, userId=blogs.owner)
     elif request.args.get('user'):
-        user = request.args.get('userId')
-        return render_template('singleUser.html', blogs=user)
+        userId = request.args.get('user')
+        blogs = Post.query.get(userId)
+        
+        return render_template('singleUser.html', posts=blogs)
 
     if not request.args.get('id'):        
         posts = Post.query.all()
@@ -153,12 +155,10 @@ def logout():
     del session['username']
     return redirect('/blog')
         
-
 @app.route("/")
 def index():
     users = User.query.all()
     return render_template('index.html', users=users)
-
 
 if __name__ == "__main__":
     app.run()
