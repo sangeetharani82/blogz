@@ -5,7 +5,7 @@
 {% for idx in range(posts|length) %}
     <h4 style="color:blue; font-style:italic"><a href="/blog?id={{posts[idx].id}}">{{posts[idx].title}}</a></h4>
     <p style="color:rgb(2, 26, 18); font-style: oblique">{{posts[idx].body}}</p>
-    <p style="color:rgb(2, 26, 18); font-style: oblique; font-size: 10px;">Written by <a href="/blog?user={{userId}}">{{userId}}</a></p>
+    <p style="color:rgb(2, 26, 18); font-style: oblique; font-size: 10px;">Written by <a href="/blog?user={{posts[idx].owner}}">{{posts[idx].owner.username}}</a></p>
     
 {% endfor %}
 

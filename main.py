@@ -72,7 +72,7 @@ def main_blog():
 
     if not request.args.get('id'):        
         posts = Post.query.all()
-        return render_template('blog.html', page_title='Blogz', posts=posts, userId=owner)
+        return render_template('blog.html', page_title='Blogz', posts=posts)
 
 # ---------------------User/logn/signup/logout------------
 class User(db.Model):
