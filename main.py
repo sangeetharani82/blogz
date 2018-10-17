@@ -35,8 +35,8 @@ def validate_blog():
         db.session.add(posts)
         db.session.commit()
 
-    blog_titles = Post.query.all()
-    blog_bodyz = Post.query.all()
+    blog_titles = Post.query.filter_by(owner=owner).all()
+    blog_bodyz = Post.query.filter_by(owner=owner).all()
 
     title_error = ''
     body_error = ''
@@ -58,7 +58,7 @@ def validate_blog():
 @app.route("/blog", methods=['POST', 'GET'])
 def main_blog():
     username = request.args.get('username')
-    owner = User.query.filter_by(username=username).all()
+    owner = User.query.filter_by(username=username).first()
     if request.args.get('id'):        
         title_id = request.args.get('id')
         blogs = Post.query.get(title_id)
@@ -66,23 +66,21 @@ def main_blog():
         blog_body = blogs.body 
         return render_template('single_blog.html', blog_title=blog_title, blog_body=blog_body, userId=blogs.owner)
     elif request.args.get('user'):
-        user_id = request.args.get('id')
+        username = request.args.get('username')
         
         
-        return render_template('single_user.html')
+        return render_template('singleUser.html', blog_titles=username)
 
-    if not request.args.get('id'):
+    if not request.args.get('id'):        
         posts = Post.query.all()
-        return render_template('blog.html', page_title='Blogz', posts=posts, userId=owner)   
-
-    
+        return render_template('blog.html', page_title='Blogz', posts=posts, userId=owner)
 
 # ---------------------User/logn/signup/logout------------
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(120), unique=True)
     password = db.Column(db.String(120))
-    posts = db.relationship('Post', backref='owner')
+    blogs = db.relationship('Post', backref='owner')
 
     def __init__(self, username, password):
         self.username = username
@@ -155,6 +153,7 @@ def signup():
 def logout():
     del session['username']
     return redirect('/blog')
+        
 
 @app.route("/")
 def index():
