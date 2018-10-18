@@ -2,11 +2,12 @@
 
 {% block content %}
 <h1>Blog posts</h1>
-<h4 style="color:blue; font-style:italic;"><a href="">{{posts.title}}</a></h4>
-<p style="color:rgb(2, 26, 18); font-style: oblique;">{{posts.body}}</p>
+<h4 style="color:blue; font-style:italic;"><a href="/blog?id={{posts.id.owner}}">{{blog_title}}</a></h4>
+<p style="color:rgb(2, 26, 18); font-style: oblique;">{{blog_body}}</p>
 <p style="color:rgb(2, 26, 18); font-style: oblique; font-size: 10px;">Written by <a href="/blog?user={{posts.id}}">{{posts.owner.username}}</a></p>
+
 
 {% endblock %}
 
   
-    
+

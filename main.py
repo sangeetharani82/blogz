@@ -65,12 +65,13 @@ def main_blog():
         blogs = Post.query.get(title_id)
         blog_title = blogs.title
         blog_body = blogs.body 
-        return render_template('single_blog.html', blog_title=blog_title, blog_body=blog_body, userId=blogs.owner)
+        return render_template('single_blog.html', blogs=blogs, blog_title=blog_title, blog_body=blog_body, userId=blogs.owner)
     elif request.args.get('user'):
         userId = request.args.get('user')
-        blogs = Post.query.get(userId)
-        
-        return render_template('singleUser.html', posts=blogs)
+        posts = Post.query.get(userId)        
+        blog_title = posts.title
+        blog_body = posts.body   
+        return render_template('singleUser.html', blog_title=blog_title, blog_body=blog_body, posts=posts)
 
     if not request.args.get('id'):        
         posts = Post.query.all()
