@@ -2,12 +2,11 @@
 
 {% block content %}
 <h1>Blog posts</h1>
-<h4 style="color:blue; font-style:italic;"><a href="/blog?id={{posts.id.owner}}">{{blog_title}}</a></h4>
-<p style="color:rgb(2, 26, 18); font-style: oblique;">{{blog_body}}</p>
-<p style="color:rgb(2, 26, 18); font-style: oblique; font-size: 10px;">Written by <a href="/blog?user={{posts.id}}">{{posts.owner.username}}</a></p>
-
+{% for idx in range(posts|length) %}
+    <h4 style="color:blue; font-style:italic"><a href="/blog?id={{posts[idx].id}}">{{posts[idx].title}}</a></h4>
+    <p style="color:rgb(2, 26, 18); font-style: oblique">{{posts[idx].body}}</p>
+    <p style="color:rgb(2, 26, 18); font-style: oblique; font-size: 10px;">Written by <a href="/blog?user={{posts[idx].owner.id}}">{{posts[idx].owner.username}}</a></p>
+    
+{% endfor %}
 
 {% endblock %}
-
-  
-

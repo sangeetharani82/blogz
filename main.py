@@ -51,7 +51,7 @@ def validate_blog():
         blog_body = '' 
 
     if not title_error and not body_error:
-        return render_template('single_blog.html', blog_title=blog_title, blog_body=blog_body, userId=owner)
+        return render_template('single_blog.html', blog_title=blog_title, blog_body=blog_body)
     else:
         return render_template('newpost.html', title_error=title_error, body_error=body_error, blog_title=blog_title, 
             blog_body=blog_body, blog_titles=blog_titles, blog_bodyz=blog_bodyz, page_title='Blogz')
@@ -59,7 +59,7 @@ def validate_blog():
 @app.route("/blog", methods=['POST', 'GET'])
 def main_blog():
     username = request.args.get('username')
-    owner = User.query.filter_by(username=username).first()
+    owner = User.query.filter_by(username=username).first() 
     if request.args.get('id'):        
         title_id = request.args.get('id')
         blogs = Post.query.get(title_id)
@@ -68,15 +68,11 @@ def main_blog():
         return render_template('single_blog.html', blogs=blogs, blog_title=blog_title, blog_body=blog_body, userId=blogs.owner)
     elif request.args.get('user'):
         userId = request.args.get('user')
-        posts = Post.query.get(userId)        
-        blog_title = posts.title
-        blog_body = posts.body   
-        return render_template('singleUser.html', blog_title=blog_title, blog_body=blog_body, posts=posts)
-
+        posts = Post.query.filter_by(owner_id=userId).all()          
+        return render_template('singleUser.html', posts=posts)
     if not request.args.get('id'):        
         posts = Post.query.all()
         return render_template('blog.html', page_title='Blogz', posts=posts)
-
 # ---------------------User/logn/signup/logout------------
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
