@@ -51,7 +51,7 @@ def validate_blog():
         blog_body = '' 
 
     if not title_error and not body_error:
-        return render_template('single_blog.html', blog_title=blog_title, blog_body=blog_body)
+        return render_template('single_blog.html', blog_title=blog_title, blog_body=blog_body, userId=owner)
     else:
         return render_template('newpost.html', title_error=title_error, body_error=body_error, blog_title=blog_title, 
             blog_body=blog_body, blog_titles=blog_titles, blog_bodyz=blog_bodyz, page_title='Blogz')

@@ -1,9 +1,8 @@
-
 {% extends "base.html" %}
 
 {% block content %}
 
-<h4 style="color:blue; font-style:italic;"><a href="/blog?id={{blogs.id}}">{{blog_title}}</a></h4>
+<h4 style="color:blue; font-style:italic;"><a href="/blog?id={{userId.id}}">{{blog_title}}</a></h4>
 <p style="color:rgb(2, 26, 18); font-style: oblique;">{{blog_body}}</p>
 <p style="color:rgb(2, 26, 18); font-style: oblique; font-size: 10px;">Written by <a href="/blog?user={{userId.id}}">{{userId.username}}</a></p>
 
