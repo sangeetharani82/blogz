@@ -51,7 +51,7 @@ def validate_blog():
         blog_body = '' 
 
     if not title_error and not body_error:
-        return render_template('single_blog.html', blog_title=blog_title, blog_body=blog_body, userId=owner)
+        return render_template('single_blog.html', blog_title=blog_title, blog_body=blog_body, userId=owner, posts=posts)
     else:
         return render_template('newpost.html', title_error=title_error, body_error=body_error, blog_title=blog_title, 
             blog_body=blog_body, blog_titles=blog_titles, blog_bodyz=blog_bodyz, page_title='Blogz')
@@ -65,7 +65,7 @@ def main_blog():
         blogs = Post.query.get(title_id)
         blog_title = blogs.title
         blog_body = blogs.body 
-        return render_template('single_blog.html', blogs=blogs, blog_title=blog_title, blog_body=blog_body, userId=blogs.owner)
+        return render_template('single_blog.html', posts=blogs, blog_title=blog_title, blog_body=blog_body, userId=owner)
     elif request.args.get('user'):
         userId = request.args.get('user')
         posts = Post.query.filter_by(owner_id=userId).all()          
