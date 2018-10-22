@@ -12,9 +12,9 @@
         </style>
     </head>
     <body>
-        <div style='float: right'>
+        <div style='float: right; color:darkblue; font-style: oblique;'>
             {% if 'username' in session %}
-              {{ session['username'] }}
+              {{ session['username'].capitalize() }}
               <form action="/logout" method="post" id='logout'>
                 <input type="submit" value="Log Out" />
               </form>
