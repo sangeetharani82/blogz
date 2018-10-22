@@ -12,10 +12,16 @@
         </style>
     </head>
     <body>
-        <div style="text-align: right ">
-            <a href='/login'>login</a>
-            <a href='/logout'>log out</a>
-        </div>
+        <div style='float: right'>
+            {% if 'username' in session %}
+              {{ session['username'] }}
+              <form action="/logout" method="post" id='logout'>
+                <input type="submit" value="Log Out" />
+              </form>
+            {% else %}
+              <a href="login">login</a> | <a href="signup">signup</a>
+            {% endif %}
+          </div>
         <nav>
             <!blog users>
             <a href="/">Home</a>

@@ -147,10 +147,14 @@ def signup():
 
     return render_template('signup.html')
 
-@app.route('/logout')
+@app.route('/logout', methods=['POST'])
 def logout():
     del session['username']
     return redirect('/blog')
+
+def logged_in_user():
+    owner = User.query.filter_by(email=session['username']).first()
+    return owner
         
 @app.route("/")
 def index():
